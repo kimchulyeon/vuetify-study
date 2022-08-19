@@ -1,28 +1,105 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <!-- # Header -->
+  <v-app>
+    <v-app-bar
+      app
+      color="primary"
+      dark
+    >
+      <v-app-bar-nav-icon
+        @click="openMenu"
+      />
+
+      <v-spacer />
+    </v-app-bar>
+
+    <!-- # Sidebar -->
+    <v-navigation-drawer
+      v-model="drawer"
+      app
+    >
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title class="text-h6">
+            Dashboard
+          </v-list-item-title>
+          <v-list-item-subtitle> using Vuetify </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider />
+
+      <v-list
+        dense
+        nav
+      >
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          link
+          :to="item.to"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <!-- # Main -->
+    <v-main>
+      <v-container
+        fluid
+      >
+        <router-view />
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
+<!-- ################################################################ -->
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+  export default {
+    name: "App",
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+    /**
+     *  # data
+     */
+    data() {
+      return {
+        items: [
+          { title: "Dashboard", icon: "mdi-view-dashboard", to: "/" },
+          {
+            title: "Grid System",
+            icon: "mdi-image",
+            to: "/grid-system",
+          },
+          {
+            title: "Grid List",
+            icon: "mdi-image",
+            to: "/grid-list",
+          },
+          {
+            title: "Breakpoint",
+            icon: "mdi-image",
+            to: "/breakpoint",
+          },
+        ],
+        drawer: false
+      };
+    },
+
+    /**
+     * # methods
+     */
+    methods: {
+      openMenu() {
+        this.drawer = !this.drawer
+      }
+    },
+  };
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
